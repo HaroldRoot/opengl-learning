@@ -15,10 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="testopengl.cpp">
+    <ClCompile Include="01_sin_cos_graph.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="testglut.cpp">
+    <ClCompile Include="02_sun_earth_moon.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="00_test_glut.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
