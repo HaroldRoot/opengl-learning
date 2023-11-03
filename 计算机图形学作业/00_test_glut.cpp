@@ -1,12 +1,12 @@
-#include <windows.h>
 // #include <gl/gl.h>
 // #include <gl/glu.h>
 // 若使用GLUT库函数实现窗口管理
 // 则不需要包含gl.h和glu.h
 // 因为GLUT保证了这两者被正确包含
-#include <gl/glut.h>
+#include <GL/glut.h>
 
-void Initial(void) {
+void Initial(void)
+{
 	// 利用OpenGL绘图
 	// 指定窗口的背景颜色
 	glClearColor(0.98f, 0.625f, 0.12f, 1.0f);
@@ -24,7 +24,8 @@ void Initial(void) {
 	// 任何坐标范围外的图形都不能显示
 }
 
-void Display(void) {
+void Display(void)
+{
 	// 用当前背景色填充窗口
 	glClear(GL_COLOR_BUFFER_BIT);
 	// 设置当前的绘图颜色为红色
@@ -37,7 +38,8 @@ void Display(void) {
 	glFlush();
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv)
+{
 	// 要使用GLUT库首先需要进行初始化
 	// 对命令行的参数进行处理
 	glutInit(&argc, argv);
@@ -51,7 +53,7 @@ int main(int argc, char** argv) {
 	glutInitWindowSize(100, 300);
 	glutInitWindowPosition(100, 120);
 
-	glutCreateWindow("矩形");
+	glutCreateWindow("Rectangle");
 
 	// 此时还需要定义窗口显示的内容。
 	// 通常，利用OpenGL绘制图形的过程将显示内容定义在一个不带任何参数的函数内，

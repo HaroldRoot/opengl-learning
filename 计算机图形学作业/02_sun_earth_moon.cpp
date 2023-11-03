@@ -123,7 +123,7 @@ int main(int argc, char** argv)
     glutInitWindowSize(600, 600);
     glutInitWindowPosition(100, 100);
     // 创建窗口
-    glutCreateWindow("太阳、地球和月亮的运动模型");
+    glutCreateWindow("Model of the motion of the Sun, Earth and Moon");
     // 初始化 OpenGL 环境
     init();
     // 注册绘图函数
