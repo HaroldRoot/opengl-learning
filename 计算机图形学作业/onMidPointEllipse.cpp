@@ -1,10 +1,5 @@
-#include "onMidPointEllispe.h"
-/**************************************************
- * 已知椭圆的长短轴 a,b
- * 根据椭圆的中点Bresenham算法，扫描转换椭圆
- * 以 glBegin(GL_POINTS);glEnd(); 方式，绘制椭圆
- ***************************************************/
-void onMidPointEllispe(int a, int b)
+#include "onMidPointEllipse.h"
+void onMidPointEllipse(int a, int b)
 {
 	int x, y;
 	float d1, d2;
@@ -33,7 +28,7 @@ void onMidPointEllispe(int a, int b)
 		glVertex2f(-x, -y);
 		glVertex2f(-x, y);
 		glVertex2f(x, -y);
-	} /* while 上半部分 */
+	} 
 	d2 = b * b * (x + 0.5) * (x + 0.5) + a * a * (y - 1) * (y - 1) - a * a * b * b;
 	while (y > 0)
 	{

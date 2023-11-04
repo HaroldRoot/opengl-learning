@@ -1,10 +1,10 @@
 /*
-g++ -fdiagnostics-color=always -g ./计算机图形学作业/03_ellipse.cpp ./计算机图形学作业/onMidPointEllispe.cpp -o ./计算机图形学作业/03_ellipse -lGL -lGLU -lglut
+g++ -fdiagnostics-color=always -g ./计算机图形学作业/03_ellipse.cpp ./计算机图形学作业/onMidPointEllipse.cpp -o ./计算机图形学作业/03_ellipse -lGL -lGLU -lglut
 ./计算机图形学作业/03_ellipse
 */
 
 #include <GL/glut.h>
-#include "onMidPointEllispe.h"
+#include "onMidPointEllipse.h"
 
 int pointNum = 0;
 int x[3] = {0, 0, 0}, y[3] = {0, 0, 0};
@@ -53,7 +53,7 @@ void drawRectAndEllipse()
     glTranslated(cx, cy, 0);
 
     // 调用椭圆的中点 Bresenham 算法，绘制椭圆
-    onMidPointEllispe(a, b);
+    onMidPointEllipse(a, b);
 
     // 反平移坐标系，恢复原来的位置
     glTranslated(-cx, -cy, 0);
@@ -77,7 +77,7 @@ void drawEllipse()
     glTranslated(cx, cy, 0);
 
     // 调用椭圆的中点 Bresenham 算法，绘制椭圆
-    onMidPointEllispe(a, b);
+    onMidPointEllipse(a, b);
 
     // 反平移坐标系，恢复原来的位置
     glTranslated(-cx, -cy, 0);
@@ -140,6 +140,31 @@ void mousePlot(GLint button, GLint action, GLint xMouse, GLint yMouse)
             pointNum = 2;
             x[2] = xMouse;
             y[2] = winHeight - yMouse;
+            // 增加以下代码，用于检测SHIFT键的状态
+            int modifier = glutGetModifiers();
+            if (modifier == GLUT_ACTIVE_SHIFT) // 如果按下SHIFT键
+            {
+                // 使x[2]和y[2]的距离相等，形成正方形
+                int dx = abs(x[2] - x[1]);
+                int dy = abs(y[2] - y[1]);
+                int d = min(dx, dy); // 取最小的距离
+                if (x[2] > x[1])     // 根据x[2]和x[1]的相对位置，调整x[2]的值
+                {
+                    x[2] = x[1] + d;
+                }
+                else
+                {
+                    x[2] = x[1] - d;
+                }
+                if (y[2] > y[1]) // 根据y[2]和y[1]的相对位置，调整y[2]的值
+                {
+                    y[2] = y[1] + d;
+                }
+                else
+                {
+                    y[2] = y[1] - d;
+                }
+            }
             glutPostRedisplay();
         }
     }

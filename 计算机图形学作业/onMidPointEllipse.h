@@ -9,4 +9,4 @@ typedef struct Point
 		x = a, y = b;
 	}
 } point;
-void onMidPointEllispe(int a, int b);
+void onMidPointEllipse(int a, int b);
