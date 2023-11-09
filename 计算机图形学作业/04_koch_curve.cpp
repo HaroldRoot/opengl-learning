@@ -1,12 +1,16 @@
 #include <GL/freeglut.h>
 #include <math.h>
 #include <vector>
-#include <string.h>
 
 using namespace std;
 
 // 定义最大迭代次数
 const int MAX_ITER = 6;
+
+// 定义当前的迭代次数，初始为 0
+int iter = 0;
+
+int record = 0;
 
 // 定义顶点结构体，包含 x 和 y 坐标
 struct vertex {
@@ -16,14 +20,15 @@ struct vertex {
 // 定义一个二维向量，存储每一次迭代的顶点集合
 vector<vertex> vertices[MAX_ITER + 1];
 
-// 定义当前的迭代次数，初始为 0
-int iter = 0;
+// 清除 vertices 中所有内容
+void clearVertices() {
+    for (int i = 0; i <= MAX_ITER; ++i) {
+        vertices[i].clear();  // 使用 clear() 函数清空每个迭代的顶点集合
+    }
+}
 
 // 初始化函数，设置背景颜色和初始的线段
-void init(void) {
-    // 设置背景颜色为黑色
-    glClearColor(0.21875f, 0.046875f, 0.1640625f, 0.0f);
-
+void init_straight_line(void) {
     // 定义初始的线段的起点和终点
     vertex start, end;
     start.x = 0.0;
@@ -34,6 +39,38 @@ void init(void) {
     // 将初始的线段的起点和终点加入到第 0 次迭代的顶点集合中
     vertices[0].push_back(start);
     vertices[0].push_back(end);
+}
+
+void init_triangle(void) {
+    // 定义初始的三角形的三个顶点
+    vertex v1, v2, v3;
+    v1.x = 400.0;
+    v1.y = 100.0;
+    v2.x = 100.0;
+    v2.y = 600.0;
+    v3.x = 700.0;
+    v3.y = 600.0;
+
+    // 将初始的三角形的三个顶点加入到第 0 次迭代的顶点集合中
+    vertices[0].push_back(v1);
+    vertices[0].push_back(v2);
+    vertices[0].push_back(v3);
+    vertices[0].push_back(v1);
+}
+
+static GLsizei iMode = 1;
+
+void processMenu(int value) {
+    iMode = value;
+    iter = 0;
+    record = 0;
+    clearVertices();
+    if (iMode == 1) {
+        init_straight_line();
+    } else {
+        init_triangle();
+    }
+    glutPostRedisplay();
 }
 
 // 窗口大小改变时的回调函数，设置视口和投影矩阵
@@ -49,9 +86,6 @@ void changeSize(GLsizei w, GLsizei h) {
 
 // 计算函数，根据当前的迭代次数，计算出下一次迭代的顶点集合
 void compute() {
-    // 静态变量，作用域是整个函数，但生命周期是整个程序
-    // 只会在第一次调用函数时被初始化，之后每次调用函数时都会保持上一次的值
-    static auto record = 0;
     if (record < iter) {
         auto len = vertices[iter - 1].size();
         auto& prev = vertices[iter - 1];
@@ -100,19 +134,30 @@ void display(void) {
     // 清除颜色缓冲区
     glClear(GL_COLOR_BUFFER_BIT);
 
-    // 调用计算函数，计算出当前的迭代结果
-    compute();
-
-    // 设置绘制颜色为白色
-    glColor3f(1.0, 1.0, 1.0);
-
-    // 绘制线段
-    drawLine(0);
-    // drawLine(160);
-    // drawLine(320);
-    // drawLine(-160);
-    // drawLine(-320);
-    // drawLine(-480);
+    switch (iMode) {
+        case 1:
+            // 调用计算函数，计算出当前的迭代结果
+            compute();
+            // 设置绘制颜色为白色
+            glColor3f(1.0, 1.0, 1.0);
+            // 绘制线段
+            drawLine(0);
+            // drawLine(160);
+            // drawLine(320);
+            // drawLine(-160);
+            // drawLine(-320);
+            // drawLine(-480);
+            glutSwapBuffers();
+            break;
+        case 2:
+            compute();
+            glColor3f(1.0, 1.0, 1.0);
+            drawLine(0);
+            glutSwapBuffers();
+            break;
+        default:
+            break;
+    }
 
     // 交换前后缓冲区，显示绘制结果
     glutSwapBuffers();
@@ -158,8 +203,17 @@ int main(int argc, char** argv) {
     // 创建窗口，标题为 Koch Curve
     glutCreateWindow("Koch Curve");
 
+    // 设置背景颜色为黑色
+    glClearColor(0.21875f, 0.046875f, 0.1640625f, 0.0f);
+
+    // 创建主菜单
+    int nMainMenu = glutCreateMenu(processMenu);
+    glutAddMenuEntry("Straight Line", 1);
+    glutAddMenuEntry("Triangle", 2);
+    glutAttachMenu(GLUT_RIGHT_BUTTON);
+
     // 调用初始化函数
-    init();
+    init_straight_line();
 
     // 注册窗口大小改变时的回调函数
     glutReshapeFunc(changeSize);
