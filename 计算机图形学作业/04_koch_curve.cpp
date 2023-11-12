@@ -203,7 +203,7 @@ int main(int argc, char** argv) {
     // 创建窗口，标题为 Koch Curve
     glutCreateWindow("Koch Curve");
 
-    // 设置背景颜色为黑色
+    // 设置背景颜色
     glClearColor(0.21875f, 0.046875f, 0.1640625f, 0.0f);
 
     // 创建主菜单
