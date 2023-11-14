@@ -12,7 +12,9 @@
                 "${fileDirname}/${fileBasenameNoExtension}",
                 "-lGL",
                 "-lGLU",
-                "-lglut"
+                "-lglut",
+                "-I/usr/include/freetype2/",
+                "-lfreetype"
             ],
             "options": {
                 "cwd": "${fileDirname}"
